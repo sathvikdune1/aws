@@ -1,0 +1,245 @@
+A transaction is a single logical unit of work which accesses and possibly modifies the contents of a database. Transactions access data using read and write operations. In order to maintain consistency in a database, before and after the transaction.
+
+Transactions are a set of operations used to perform a logical set of work. It is the bundle of all the instructions of a logical operation. A transaction usually means that the data in the database has changed. One of the major uses of DBMS is to protect the user’s data from system failures. It is done by ensuring that all the data is restored to a consistent state when the computer is restarted after a crash. The transaction is any one execution of the user program in a DBMS. One of the important properties of the transaction is that it contains a finite number of steps. Executing the same program multiple times will generate multiple transactions. 
+
+Example: Consider the following example of transaction operations to be performed to withdraw cash from an ATM vestibule.
+
+ Steps for ATM Transaction 
+ Transaction Start.
+ Insert your ATM card.
+ Select a language for your transaction.
+ Select the Savings Account option. 
+ Enter the amount you want to withdraw. 
+ Enter your secret pin.
+ Wait for some time for processing.
+ Collect your Cash.
+ Transaction Completed.
+A transaction can include the following basic database access operation.
+
+Read/Access data (R): Accessing the database item from disk (where the database stored data) to memory variable.
+Write/Change data (W): Write the data item from the memory variable to the disk.
+Commit: Commit is a transaction control language that is used to permanently save the changes done in a transaction
+Example: Transfer of 50₹ from Account A to Account B. Initially A= 500₹, B= 800₹. This data is brought to RAM from Hard Disk. 
+
+
+R(A) -- 500       // Accessed from RAM.
+A = A-50          // Deducting 50₹ from A.
+W(A)--450         // Updated in RAM.
+R(B) -- 800       // Accessed from RAM.
+B=B+50            // 50₹ is added to B's Account.
+W(B) --850        // Updated in RAM.
+commit            // The data in RAM is taken back to Hard Disk.
+Stages of Transaction
+Stages of Transaction
+
+Note: The updated value of Account A = 450₹ and Account B = 850₹. 
+
+All instructions before committing come under a partially committed state and are stored in RAM. When the commit is read the data is fully accepted and is stored on a Hard Disk. 
+
+If the transaction is failed anywhere before committing we have to go back and start from the beginning. We can’t continue from the same state. This is known as Roll Back. 
+
+Desirable Properties of Transaction (ACID Properties)
+For a transaction to be performed in DBMS, it must possess several properties often called ACID properties.
+
+A – Atomicity
+C – Consistency
+I – Isolation
+D – Durability 
+Transaction States
+Transactions can be implemented using SQL queries and Servers. In the diagram, you can see how transaction states work. 
+
+Transaction States in DBMS
+Transaction States
+
+The transaction has four properties. These are used to maintain consistency in a database, before and after the transaction.
+Property of Transaction:
+
+Atomicity
+Consistency
+Isolation
+Durability
+Atomicity
+States that all operations of the transaction take place at once if not, the transactions are aborted.
+There is no midway, i.e., the transaction cannot occur partially. Each transaction is treated as one unit and either run to completion or is not executed at all.
+Atomicity involves the following two operations:
+Abort: If a transaction aborts, then all the changes made are not visible.
+Commit: If a transaction commits then all the changes made are visible. 
+Consistency
+The integrity constraints are maintained so that the database is consistent before and after the transaction.
+The execution of a transaction will leave a database in either its prior stable state or anew stable state.
+The consistent property of database states that every transaction sees a consistent database instance.
+The transaction is used to transform the database from one consistent state to another consistent state.
+Isolation
+It shows that the data which is used at the time of execution of a transaction cannot be used by the second transaction until the first one is completed.
+In isolation, if the transaction T1 is being executed and using the data item X, then that data item can’t be accessed by any other transaction T2 until the transaction T1ends.
+The concurrency control subsystem of the DBMS enforced the isolation property
+Durability
+The durability property is used to indicate the performance of the database’s consistent state. It states that the transaction made the permanent changes.
+They cannot be lost by the erroneous operation of a faulty transaction or by the system failure. When a transaction is completed, then the database reaches a state known as the consistent state. That consistent state cannot be lost, even in the event of a system’s failure.
+The recovery subsystem of the DBMS has the responsibility of Durability property.
+Implementing of Atomicity and Durability
+The recovery-management component of a database system can support atomicity and durability by a variety of schemes.
+
+E.g. the shadow-database scheme:
+
+Shadow copy
+ In the shadow-copy scheme, a transaction that wants to update the database first creates a complete copy of the database.
+ All updates are done on the new database copy, leaving the original copy, the shadow copy, untouched. If at any point the transaction has to be aborted, the system merely deletes the new copy. The old copy of the database has not been affected.
+ This scheme is based on making copies of the database, called shadow copies, assumes that only one transaction is active at a time.
+ The scheme also assumes that the database is simply a file on disk. A pointer called db pointer is maintained on disk; it points to the current copy of the database.
+Transaction Isolation Levels in DBMS
+Some other transaction may also have used value produced by the failed transaction. So we also have to rollback those transactions.
+The SQL standard defines four isolation levels:
+
+Read Uncommitted: Read Uncommitted is the lowest isolation level. In this level,one transaction may read not yet committed changes made by other transaction, therebyallowing dirty reads. In this level, transactions are not isolated from each other.
+Read Committed: This isolation level guarantees that any data read is committed atthe moment it is read. Thus it does not allows dirty read. The transaction holds a read orwrite lock on the current row, and thus prevent other transactions from reading,updating or deleting it.
+Repeatable Read: This is the most restrictive isolation level. The transaction holdsead locks on all rows it references and writes locks on all rows it inserts, updates.deletes. Since other transaction cannot read, update or delete these rows, consequently it
+avoids non-repeatable read.
+Serializable: This is the Highest isolation level. A serializable execution is guaranteed to be serializable. Serializable execution is defined to be an execution of operations in which concurrently executing transactions appears to be serially executing.
+Failure Classification
+To find that where the problem has occurred, we generalize a failure into the following categories:
+
+Transaction failure
+System crash
+Disk failure 
+1. Transaction failure
+The transaction failure occurs when it fails to execute or when it reaches a point from where it can’t go any further. If a few transactions or process is hurt, then this is called as transaction failure.
+
+Reasons for a transaction failure could be –
+
+Logical errors: If a transaction cannot complete due to some code error or an internal error condition, then the logical error occurs.
+Syntax error: It occurs where the DBMS itself terminates an active transaction because the database system is not able to execute it. For example, The system aborts an active transaction, in case of deadlock or resource unavailability.
+2. System Crash
+System failure can occur due to power failure or other hardware or software failure. Example: Operating system error.
+
+Fail-stop assumption: In the system crash, non-volatile storage is assumed not to be corrupted.
+3. Disk Failure
+ It occurs where hard-disk drives or storage drives used to fail frequently. It was a common problem in the early days of technology evolution.
+Disk failure occurs due to the formation of bad sectors, disk head crash, and unreachability to the disk or any other failure, which destroy all or part of disk storage.
+Serializability
+It is an important aspect of Transactions. In simple meaning, you can say that serializability is a way to check whether two transactions working on a database are maintaining database consistency or not.
+
+It is of two types:
+
+Conflict Serializability
+View Serializability
+Schedule
+Schedule, as the name suggests is a process of lining 
+
+
+file organization
+File Organization
+File organization refers to the arrangement of data on storage devices. The method chosen can have a profound effect on the efficiency of various database operations.
+
+Common methods of file organization include:
+Sequential (or Serial) File Organization
+In sequential file organization, records are stored in sequence, one after the other, based on a key field. This key field is a unique identifier for records, ensuring that they have some order. The records are inserted at the end of the file, ensuring the sequence is maintained.
+
+Features of Sequential File Organization
+Ordered Records: Records in a sequential file are stored based on a key field.
+Continuous Memory Allocation: The records are stored in contiguous memory locations.
+No Direct Access: To access a record, you have to traverse from the first record until you find the desired one.
+Advantages Sequential File Organization
+Simplicity: The design and logic behind sequential file organization are straightforward.
+Efficient for Batch Processing: Since records are stored in sequence, sequential processing (like batch updates) can be done efficiently.
+Less Overhead: There's no need for complex algorithms or mechanisms to store records.
+Disadvantages Sequential File Organization
+Inefficient for Random Access**: If you need a specific record, you may have to go through many records before finding the desired one. This makes random access slow.
+Insertion and Deletion**: Inserting or deleting a record (other than at the end) can be time-consuming since you may need to shift records to maintain the order.
+Redundancy Issues**: There's a risk of redundancy if checks are not made before inserting records. For example, a record with the same key might get added twice if not checked.
+Practical Application: Suppose you have a file of students ordered by their roll number:
+
+
+Roll No | Name
+--------|--------
+1       | Madhu
+2       | Naveen
+4       | Shivaji
+5       | Durga
+In a sequential file, if you wanted to add a student with roll number 6, you would append them at the end. However, if you wanted to insert a student with a roll number 3 which is between 2 and 4, you would need to shift all subsequent records to maintain the sequence, which can be time-consuming.
+
+Direct (or Hashed) File Organization
+In hash file organization, a hash function is used to compute the address of a block (or bucket) where the record is stored. The value returned by the hash function using a record's key value is its address in the database.
+
+Features of Hash File Organization
+Hash Function: A hash function converts a record's key value into an address.
+Buckets: A bucket typically stores one or more records. A hash function might map multiple keys to the same bucket.
+No Ordering of Records: Records are not stored in any specific logical order.
+Advantages Hash File Organization
+Rapid Access: If the hash function is efficient and there's minimal collision, the retrieval of a record is very quick.
+Uniform Distribution: A good hash function will distribute records uniformly across all buckets.
+Efficient Search: Searching becomes efficient as only a specific bucket needs to be searched rather than the entire file.
+Disadvantages Hash File Organization
+Collisions**: A collision occurs when two different keys hash to the same bucket. Handling collisions can be tricky and might affect access time.
+Dependency on Hash Function**: The efficiency of a hash file organization heavily depends on the hash function used. A bad hash function can lead to clustering and inefficient utilization of space.
+Dynamic Growth and Shrinking**: If the number of records grows or shrinks significantly, rehashing might be needed which is an expensive operation.
+Practical Application: Imagine a database that holds information about books.
+
+Each book has a unique ISBN number. A hash function takes an ISBN and returns an address. When you want to find a particular book's details, you hash the ISBN, which directs you to a particular bucket. If two books' ISBNs hash to the same value, you handle that collision, maybe by placing the new record in a linked list associated with that bucket.
+
+Indexed File Organization
+Indexed file organization is a method used to store and retrieve data in databases. It is designed to provide quick random access to records based on key values. In this organization, an index is created which helps in achieving faster search and access times.
+
+Features Indexed File Organization:
+Primary Data File: The actual database file where records are stored.
+Index: An auxiliary file that contains key values and pointers to the corresponding records in the data file.
+Multi-level Index: Sometimes, if the index becomes large, a secondary (or even tertiary) index can be created on the primary index to expedite searching further.
+Advantages Indexed File Organization:
+Quick Random Access: Direct access to records is possible using the index.
+Flexible Searches: Since an index provides a mechanism to jump directly to records, different types of search operations (like range queries) can be efficiently supported.
+Ordered Access: If the primary file is ordered, then indexed file organization can support efficient sequential access too.
+Disadvantages Indexed File Organization:
+Overhead of Maintaining Index: Every time a record is added, deleted, or updated, the index also needs to be updated. This can introduce overhead.
+Space Overhead: Indexes consume additional storage space.
+Complexity: Maintaining multiple levels of indexes can introduce complexity in terms of design and implementation.
+Practical Application: Consider a database that holds information about students.
+
+where each student has a unique student ID. The main file would contain detailed records for each student. A separate index file would contain student IDs and pointers to the location of the detailed records in the main file. When you want to find a specific student's details, you first search the index to find the pointer and then use that pointer to fetch the record directly from the main file.
+
+
+Note: Indexed file organization strikes a balance between the direct and sequential access of records. While it offers faster search capabilities, there's a trade-off in terms of space and maintenance overhead. It is ideal for databases where search operations are predominant, and where the overhead of maintaining the index can be justified by the improved access times.
+
+Indexed Sequential Access Method (ISAM)
+ISAM is a popular method for indexed file organization. In ISAM:
+
+The primary file is stored in a sequential manner based on a primary key.
+There's a static primary index built on the primary key.
+Overflow areas are designated for insertion of new records, which keeps the main file in sequence. Periodically, the overflow area can be merged back into the main file.
+Indexing
+Indexing involves creating an auxiliary structure (an index) to improve data retrieval times. Just like the index in the back of a book, a database index provides pointers to the locations of records.
+
+Structure of Index
+We can create indices using some columns of the database.
+
+
+|-------------|----------------|
+|  Search Key | Data Reference |
+|-------------|----------------|
+The search key is the database’s first column, and it contains a duplicate or copy of the table’s candidate key or primary key. The primary key values are saved in sorted order so that the related data can be quickly accessible.
+The data reference is the database’s second column. It contains a group of pointers that point to the disk block where the value of a specific key can be found.
+Types of Indexes:
+Single-level Index: A single index table that contains pointers to the actual data records.
+Multi-level Index: An index of indexes. This hierarchical approach reduces the number of accesses (disk I/O operations) required to find an entry.
+Dense and Sparse Indexes:
+In a dense index, there's an index entry for every search key value in the database.
+In a sparse index, there are fewer index entries. One entry might point to several records.
+Primary and Secondary Indexes:
+A primary index is an ordered file whose records are of fixed length with two fields. The first field is the same as the primary key, and the second field is a pointer to the data block. There's a one-to-one relationship between the number of entries in the index and the number of records in the main file.
+A secondary index provides a secondary means of accessing data. For each secondary key value, the index points to all the records with that key value.
+Clustered vs. Non-clustered Index:
+In a clustered index, the rows of data in the table are stored on disk in the same order as the index. There can only be one clustered index per table.
+In a non-clustered index, the order of rows does not match the index's order. You can have multiple non-clustered indexes.
+Bitmap Index: Used mainly for data warehousing setups, a bitmap index uses bit arrays (bitmaps) and usually involves columns that have a limited number of distinct values.
+B-trees and B+ trees: Balanced tree structures that ensure logarithmic access time. B+ trees are particularly popular in DBMS for their efficiency in disk I/O operations.
+Benefits of Indexing:
+Faster search and retrieval times for database operations.
+Drawbacks of Indexing:
+Overhead for insert, update, and delete operations, as indexes need to be maintained.
+Additional storage requirements for the index structures.
+question: exing,implementaiconcept of cluster indton with an example.
+Clustering Index
+A clustered index can be defined as an ordered data file. Sometimes the index is created on non-primary key columns which may not be unique for each record.
+In this case, to identify the record faster, we will group two or more columns to get the unique value and create index out of them. This method is called a clustering index.
+The records which have similar characteristics are grouped, and indexes are created for these group.
+Example: suppose a company contains several employees in each department. Suppose we use a clustering index, where all employees which belong to the same Dept_ID are considered within a single cluster, and index pointers point to the cluster as a whole. Here Dept_Id is a non-unique key.
+
